@@ -36,7 +36,7 @@ $router->group(['prefix' => 'city'], function() use ($router) {
 # Students
 $router->group(['prefix' => 'student'], function() use ($router) {
     $router->get('/', 'StudentController@getAll');
-    #$router->get('/{id}', 'StateController@getById');
+    $router->get('/{id}', 'StudentController@getById');
     $router->post('/new', 'StudentController@created');
-    #$router->put('/update/{id}', 'StateController@update');
+    $router->put('/update/{id}', 'StudentController@update');
 });

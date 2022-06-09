@@ -4,19 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Http\Requests\StudentRequest;
+use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
+    public $GetFilter = [
+        "id",
+        "names",
+        "lastnames",
+        "brithday",
+        "address",
+        "email",
+        "phone",
+        "city_id"
+    ];
     public function getAll() {
-        $studens = Student::where("status", 1)->get();
+        $students = Student::where("status", 1)->get($this->GetFilter);
 
-        return $studens;
+        return $students;
     }
 
     public function getById(int $id) {
-        $studen = Student::where("id", $id)->get();
+        $student = Student::where("id", $id)->get($this->GetFilter);
 
-        return $studen;
+        return $student;
     }
 
     public function created(StudentRequest $request) {
@@ -32,6 +43,30 @@ class StudentController extends Controller
             "status" => 1,
             "city_id" => $request->city_id
         ]);
+
+        $student->save();
+
+        return response()->json($student);
+    }
+
+    public function update(Request $request, int $id) {
+        $this->validate($request, [
+            "names" => ["required"],
+            "lastnames" => ["required"],
+            "brithday" => ["required"],
+            "address" => ["required"],
+            "phone" => ["required"],
+            "city_id" => ["required"]
+        ]);
+
+        $student = Student::where('id', $id)->get($this->GetFilter)->first();
+
+        $student->names = $request->names;
+        $student->lastnames = $request->lastnames;
+        $student->brithday = $request->brithday;
+        $student->address = $request->address;
+        $student->phone = $request->phone;
+        $student->city_id = $request->city_id;
 
         $student->save();
 
