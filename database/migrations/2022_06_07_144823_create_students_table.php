@@ -20,12 +20,12 @@ class CreateStudentsTable extends Migration
             $table->date('brithday');
             $table->string('address', 255);
             $table->string('email', 255)->unique();
-            $table->smallInteger('phone');
+            $table->integer('phone');
             $table->integer('status');
 
-            $table->integer('city_id', null, true)->unsigned()->index();
+            $table->bigInteger('city_id', null, true)->index();
 
-            $table->foreign('id')->references('id')->on('cities')
+            $table->foreign('city_id')->references('id')->on('cities')
             ->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();

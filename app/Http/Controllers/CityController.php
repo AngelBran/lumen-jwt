@@ -2,28 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\State;
-use App\Http\Requests\StateRequest;
+use App\Models\City;
+use App\Http\Requests\CityRequest;
 
-class StateController extends Controller
+class CityController extends Controller
 {
     public function getAll() {
-        $states = State::where("status", 1)->get(["id", "name"]);
+        $states = City::where("status", 1)->get(["id", "name"]);
 
         return $states;
     }
 
     public function getById(int $id) {
-        $state = State::where('id', $id)->get(["id", "name"])->first();
+        $state = City::where('id', $id)->get(["id", "name"])->first();
 
         return $state;
     }
 
-    public function created(StateRequest $request) {
+    public function created(CityRequest $request) {
         $request->validated();
 
-        $state = new State([
+        $state = new City([
             "name" => $request->name,
+            "state_id" => $request->state_id,
             "status" => 1
         ]);
         $state->save();
@@ -31,10 +32,10 @@ class StateController extends Controller
         return response()->json($state);
     }
 
-    public function update(StateRequest $request, int $id) {
+    public function update(CityRequest $request, int $id) {
         $request->validated();
 
-        $state = State::where('id', $id)->get(["id", "name"])->first();
+        $state = City::where('id', $id)->get(["id", "name"])->first();
 
         $state->name = $request->name;
         $state->save();
