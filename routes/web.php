@@ -40,3 +40,5 @@ $router->group(['prefix' => 'student'], function() use ($router) {
     $router->post('/new', 'StudentController@created');
     $router->put('/update/{id}', 'StudentController@update');
 });
+
+
