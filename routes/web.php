@@ -17,6 +17,31 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+#Auth
+$router->group(['prefix' => 'auth'], function () use ($router) {
+    $router->post('/register', [ 
+        'as' => 'auth.register',
+        'uses' => 'UserController@register'
+    ]);
+    
+    $router->post('/login', [ 
+        'as' => 'auth.login',
+        'uses' => 'UserController@login' 
+    ]);
+    
+    $router->group(['middleware' => 'auth'], function () use ($router) {
+        $router->get('/profile', [ 
+            'as' => 'auth.profile',
+            'uses' => 'UserController@profile' 
+        ]);
+    
+        $router->get('/logout', [ 
+            'as' => 'auth.logout',
+            'uses' => 'UserController@logout' 
+        ]);
+    });
+});
+
 # States
 $router->group(['prefix' => 'state'], function() use ($router) {
     $router->get('/', 'StateController@getAll');
@@ -40,5 +65,3 @@ $router->group(['prefix' => 'student'], function() use ($router) {
     $router->post('/new', 'StudentController@created');
     $router->put('/update/{id}', 'StudentController@update');
 });
-
-

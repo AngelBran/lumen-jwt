@@ -24,7 +24,7 @@ class LoginRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'email' => ['requied', 'string', 'email'],
+            'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string']
         ];
     }
